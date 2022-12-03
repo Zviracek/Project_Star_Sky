@@ -18,7 +18,7 @@ Additional informations and files will be added as I progress my work.
 # Flight computer
 
 In this section I would like to briefly talk about the flight computer I am currently using.
-Quick disclaimer: This is version 1 revision 0. DO NOT USE THIS. It have lots of bugs, that I am aware of. I have just decided to ignore them for the time.
+Quick disclaimer: This is version 1 revision 0. DO NOT USE ANY OF THESE FILES. It have lots of bugs, that I am aware of. I have just decided to ignore them for the time.
 All files are in Flight_Computer folder.
 
 As stated before, this iteration have many small mistakes, that leads to almost non-usable PCB. Almost because I found some workarounds.
