@@ -27,57 +27,6 @@
 // SD card library inclusion
 // #include <SD.h>
 
-/*
-    MACROS
-*/
-// Macros for pins
-#define LED_R 23
-#define LED_G 22
-#define LED_B 19
-
-#define PYRO_1 3
-#define PYRO_2 9
-#define PYRO_3 21
-#define PYRO_4 16
-
-#define CS_FLASH 39
-#define CS_IMU 10
-#define CS_BME 38
-#define CS_BREAKOUT 0
-
-#define GPS_RX 29
-#define GPS_TX 28
-
-#define BL_RX 35
-#define BL_TX 34
-
-#define SERVO_X 36
-#define SERVO_Z 33
-
-// definiton of flight states
-#define GroundIdle 1
-#define Countdown 2
-#define Launch 3
-#define Flight 4
-#define Return 5
-#define Landed 6
-#define LaunchAbort 7
-#define FlightAbort 8
-
-// MPU6050 macros
-#define MPU6050_Addr 0x68
-#define G 9.80665
-
-#define GYRO_FULL_SCALE_250_DPS  0x00
-#define GYRO_FULL_SCALE_500_DPS  0x08
-#define GYRO_FULL_SCALE_1000_DPS 0x10
-#define GYRO_FULL_SCALE_2000_DPS 0x18
-
-#define ACC_FULL_SCALE_2G  0x00
-#define ACC_FULL_SCALE_4G  0x08
-#define ACC_FULL_SCALE_8G  0x10
-#define ACC_FULL_SCALE_16G 0x18
-
 // Activating certain parts of code
 #define IMUI2C
 
@@ -203,42 +152,7 @@ void setup() {
 
 void loop()
 {
-  // Check for current state: GroundIdle, Countdown, Launch, Flight, Return, Landed, LaunchAbort, FlightAbort
-  switch(flightState)
-  {
-    case 1: // Ground Idle - sensor logging directly to SD, wating for launch signal
-      GroundIdleState();
-      break;
-
-    case 2: // Countdown - Countdown, SD card logging suspended, using FLASH instead
-      CountdownState();
-      break;
-
-    case 3: // Launch - first few seconds of the flight checking for flight nominality, if launch is not detected, switch to LaunchAbort
-      LaunchState();
-      break;
-
-    case 4: // Flight - stabilization online, complete loging, chechks for flight nominality or return state conditions, if flight is not nominal, switch to FlightAbort
-      FlightState();
-      break;
-
-    case 5: // Return - MECO, deploy chutes at safe atitude, wait for landing
-      ReturnState();
-      break;
-
-    case 6: // Landed - landing detected, transfer data from flash to SD
-      LandedState();
-      break;
-
-    case 7: // LaunchAbort - error at countdown -> stop countdown, transfer data from flash to SD, add error log to SD
-      LaunchAbortState();
-      break;
-
-    case 8: // FlightAbort - jiggle engine vector to bleed as much power as possible, extended logging to flash, special chute conditions, wait for landing
-      FlightAbortState();
-      break;  
-  }
- 
+  switchStates(flightState);
   readIMU();
   
   // Servos PID
